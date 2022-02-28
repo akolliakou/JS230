@@ -20,8 +20,8 @@ class UI {
     this.next = document.querySelector('.next');
     this.previous = document.querySelector('.prev');
 
-    this.next.addEventListener('click', this.handleNext.bind(this));
-    this.previous.addEventListener('click', this.handlePrevious.bind(this));
+    this.next.addEventListener('click', this.handleNextPrev.bind(this));
+    this.previous.addEventListener('click', this.handleNextPrev.bind(this));
   }
 
   renderPhotos(photos) {
@@ -78,45 +78,32 @@ class UI {
     return [...this.figures].filter(figure => figure.style.display !== 'none')[0];
   }
 
-  handleNext(e) {
+  handleNextPrev(e) {
     e.preventDefault();
     this.currentFigure = this.getCurrentFigure();
-    let nextFigure;
+    let targetFigure;
 
-    if (this.currentFigure.dataset.id !== '3') {
-      nextFigure = [...this.figures][[...this.figures].indexOf(this.currentFigure) + 1];
+    if (e.target === this.next) {
+      if (this.currentFigure.dataset.id !== '3') {
+        targetFigure = [...this.figures][[...this.figures].indexOf(this.currentFigure) + 1];
+      } else {
+        targetFigure = [...this.figures][0];
+      }
     } else {
-      nextFigure = [...this.figures][0];
+      if (this.currentFigure.dataset.id !== '3') {
+        targetFigure = [...this.figures][[...this.figures].indexOf(this.currentFigure) + 1];
+      } else {
+        targetFigure = [...this.figures][0];
+      }
     }
 
     $(this.currentFigure).fadeOut(400);
-    $(nextFigure).fadeIn(400);
+    $(targetFigure).fadeIn(400);
 
-    let nextPhoto = photoCollection.photos.filter(photo => photo.id === Number(nextFigure.dataset.id))[0]
+    let targetPhoto = photoCollection.photos.filter(photo => photo.id === Number(targetFigure.dataset.id))[0]
 
-    show.renderInformation(nextPhoto);
-    photoComments.getComments(nextPhoto.id);
-    photoCollection.bindEvents();
-  }
-
-  handlePrevious(e) {
-    e.preventDefault();
-    this.currentFigure = this.getCurrentFigure();
-    let prevFigure;
-
-    if (this.currentFigure.dataset.id !== '1') {
-      prevFigure = [...this.figures][[...this.figures].indexOf(this.currentFigure) - 1];
-    } else {
-      prevFigure = [...this.figures][2];
-    }
-
-    $(this.currentFigure).fadeOut(400);
-    $(prevFigure).fadeIn(400);
-
-    let prevPhoto = photoCollection.photos.filter(photo => photo.id === Number(prevFigure.dataset.id))[0]
-
-    show.renderInformation(prevPhoto);
-    photoComments.getComments(prevPhoto.id);
+    show.renderInformation(targetPhoto);
+    photoComments.getComments(targetPhoto.id);
     photoCollection.bindEvents();
   }
 }
