@@ -50,15 +50,15 @@ class UI {
     let compiledHTML;
 
     if (Array.isArray(data)) {
+      template = Handlebars.compile(templateHTML);
+
       if (element.id === 'slides') {
-        template = Handlebars.compile(templateHTML);
         compiledHTML = template({ photos: data });
-        element.innerHTML = compiledHTML;
       } else {
-        template = Handlebars.compile(templateHTML);
         compiledHTML = template({ comments: data });
-        element.innerHTML = compiledHTML;
       }
+
+      element.innerHTML = compiledHTML;
     } else {
       if (partialTemplateHTML) {
         template = Handlebars.compile(partialTemplateHTML);
@@ -69,6 +69,7 @@ class UI {
         compiledHTML = template(data);
         element.innerHTML = compiledHTML;
       }
+
     }
   }
 
