@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <title>Contact Manager</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="" />
+    <script src="javascripts/jquery.js"></script>
+    <script src="javascripts/handlebars.js"></script>
+    <script>
+      Handlebars.registerHelper('deduplicateTags', function(arr) {
+        let deduplicatedTags = arr.filter((tag, idx) => {
+          return arr.indexOf(tag) === idx;
+        })
+
+        return deduplicatedTags;
+      });
+    </script>
+    <script id="contacts-template" type="text/handlebars">
+      <div id="contacts">
+        {{#each contacts}}
+          <div id={{id}}>
+          <h3>{{full_name}}</h3>
+          <p><strong>Phone Number:</strong></p>
+          <p>{{phone_number}}</p>
+          <p><strong>Email:</strong></p>
+          <p>{{email}}</p>
+          <p><strong>Tags</strong></p>
+          {{#each (deduplicateTags tags)}}
+          <p class="tags">{{this}}</p>
+          {{/each}}
+          <input class="edit" type="submit" value="Edit">
+          <input class="delete" type="submit" value="Delete">
+        </div>
+        {{/each}}
+      </div>
+    </script>
+    <script id="form-template" type="text/handlebars">
+      <form id="add-edit-contact" data-id="{{id}}" novalidate>
+        <h2>Create Contact</h2>
+        <div>
+          <label for="name">Full name:</label>
+          <input id="full_name" name="full_name" type="text" value="{{full_name}}" required>
+          <span></span>
+        </div>
+        <br></br>
+        <div>
+        <label for="email">Email address:</label>
+        <input id="email" name="email" type="text" value="{{email}}" placeholder="one@example.com" pattern=".+@.+" required>
+        <span></span>
+        </div>
+        <br></br>
+        <div>
+        <label for="phone_number">Telephone number:</label>
+        <input id="phone_number" name="phone_number" type="text" value="{{phone_number}}" placeholder="111-222-3333" pattern="\d{3}-\d{3}-\d{4}" required>
+        <span></span>
+        </div>
+        <br></br>
+        <div>
+        <label for="tags">Tags:</label>
+        <input id="tags" name="tags" type="text" value="{{tags}}" placeholder="tag1,tag2" pattern="^[0-9a-zA-Z]+(,[0-9a-zA-Z]+)*$" required>
+        <span></span>
+        </div>
+        <br></br>
+        <input type="submit" value="Submit">
+        <input id="cancel-add-edit" type="button" value="Cancel">
+      </form>
+    </script>
+  </head>
+
+  <body>
+    <header class="bs-header">
+      <div class="container">
+        <a href="/index.html"><h1>Contact Manager</h1></a>
+      </div>
+    </header>
+
+    <div class="container">
+      <div class="full">
+        <div class="upper">
+          <input class="add" type="submit" value="Add Contact">
+          <input id="search" type="text" placeholder="Search">
+        </div>
+        <br></br>
+        <div id="show-contacts" style="display: none">
+          <input id="show-all-contacts" type="submit" value="Show all contacts">
+        </div>
+        <div id="contacts-display">
+          <div class="lower-text-button">
+            <div class="text">
+              There are no contacts.
+            </div>
+            <div class="button">
+              <input class="add" type="submit" value="Add Contact">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="add-edit-form">
+      </div>
+      <br></br>
+      <div class="footer text-center">
+        <p>Developed for <a href="https://launchschool.com/">Launch School</a>'s JS239 practice assessment project.</p>
+      </div>
+    </div> 
+    <script src=javascripts/contact_manager.js></script>
+  </body>
+</html>
