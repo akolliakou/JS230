@@ -262,7 +262,7 @@ class Contacts {
         if (contact.tags) {
           contact.tags = contact.tags.split(',');
         }
-      })
+      });
       manager.renderDisplayContactsTemplate(this.contacts);
     })
   }
@@ -363,12 +363,6 @@ class Contact {
     this.email = document.getElementById('email');
     this.phoneNumber = document.getElementById('phone_number');
     this.tags = document.getElementById('tags');
-  }
-
-  tagsHaveDuplicate() {
-    return this.tags.value.split(',').some(tag => {
-      return this.tags.value.split(',').indexOf(tag) !== this.tags.value.split(',').lastIndexOf(tag)
-    });
   }
 }
 
